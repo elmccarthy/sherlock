@@ -91,8 +91,12 @@ void listFiles(const char* name)
     DIR* dir;
     struct dirent* entry;
 
-    if (!(dir = opendir(name)))
+    if (!(dir = opendir(name))) {
+        filePath[nfiles] = malloc(strlen(name) * sizeof(char));
+        strcpy(filePath[nfiles], name);
+        nfiles++;
         return;
+    }
 
     while ((entry = readdir(dir)) != NULL) {
         if (entry->d_type == DT_DIR) {
